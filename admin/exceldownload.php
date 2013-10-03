@@ -84,9 +84,10 @@ if(isset($_POST) && count($_POST)){
 		CONCAT(t2.firstname,0x20,t2.lastname) AS description
 		, t1.invoicenum
 		, t1.total
-		, IF(t1.paymentmethod='Paypal','P','B') AS method
+		, IF(t3.transid!='','P','B') AS method
 		FROM whmcs.tblinvoices t1 
 		JOIN tblclients t2 ON t1.userid=t2.id
+		JOIN tblaccounts t3 ON t1.id=t3.invoiceid
 		WHERE t1.status='Paid' AND t1.datepaid BETWEEN $datefrom AND $dateto
 		ORDER BY t1.id DESC";
 
