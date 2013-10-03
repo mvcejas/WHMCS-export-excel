@@ -1,5 +1,6 @@
 <?php
 require realpath(dirname(__FILE__)) . '/../includes/classes/PHPExcel.php';
+require realpath(dirname(__FILE__)) . '/../dbconnect.php';
 
 // Create new PHPExcel object
 $objPHPExcel = new PHPExcel();
