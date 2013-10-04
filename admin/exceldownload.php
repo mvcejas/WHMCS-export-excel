@@ -97,7 +97,6 @@ if(isset($_POST) && count($_POST)){
 						  ->setCellValue('J'.$row, '=IF(D'.$row.'=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
 	 	$row++;
 	}
-
 }
 
 // Redirect output to a client’s web browser (Excel5)
