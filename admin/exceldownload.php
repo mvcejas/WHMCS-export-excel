@@ -101,7 +101,6 @@ if(isset($_POST) && count($_POST)){
 	}
 
 	$worksheet->setCellValue('L1',$query);
-	exit;
 }
 
 // Redirect output to a client’s web browser (Excel5)
