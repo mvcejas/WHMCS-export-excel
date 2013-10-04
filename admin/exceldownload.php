@@ -4,16 +4,6 @@ require realpath(dirname(__FILE__)) . '/../includes/classes/PHPExcel.php';
 // Create new PHPExcel object
 $objPHPExcel = new PHPExcel();
 
-// Set document properties
-$objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
-							 ->setLastModifiedBy("Maarten Balliauw")
-							 ->setTitle("Office 2007 XLSX Test Document")
-							 ->setSubject("Office 2007 XLSX Test Document")
-							 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
-							 ->setKeywords("office 2007 openxml php")
-							 ->setCategory("Test result file");
-
-
 // create headers
 $objPHPExcel->setActiveSheetIndex(0)
 			->mergeCells('A1:A2')
@@ -42,13 +32,13 @@ $objPHPExcel->setActiveSheetIndex(0)
 			->mergeCells('E1:F1')
 			->getStyle('E1:F1')
 			->getAlignment()
-    		->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+  		->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 $objPHPExcel->setActiveSheetIndex(0)
 			->mergeCells('G1:H1')
 			->getStyle('G1:H1')
 			->getAlignment()
-    		->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+  		->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 $objPHPExcel->setActiveSheetIndex(0)
 			->mergeCells('I1:K1')
@@ -97,13 +87,13 @@ if(isset($_POST) && count($_POST)){
 	$row = 3;
 	while($obj = mysql_fetch_object($result)){
 		$worksheet->setCellValue('A'.$row, $obj->description)
-				  ->setCellValue('B'.$row, $obj->invoicenum)
-				  ->setCellValue('C'.$row, $obj->total)
-				  ->setCellValue('D'.$row, $obj->method)
-				  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
-				  ->setCellValue('G'.$row, '=IF(D'.$row.'="B",C'.$row.',"")')
-				  ->setCellValue('I'.$row, '=IF(D'.$row.'="P",SUM((C'.$row.'*4/100)+C'.$row.'+0.34),"")');
-				  ->setCellValue('J'.$row, '=IF(D'.$row.'=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
+						  ->setCellValue('B'.$row, $obj->invoicenum)
+						  ->setCellValue('C'.$row, $obj->total)
+						  ->setCellValue('D'.$row, $obj->method)
+						  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
+						  ->setCellValue('G'.$row, '=IF(D'.$row.'="B",C'.$row.',"")')
+						  ->setCellValue('I'.$row, '=IF(D'.$row.'="P",SUM((C'.$row.'*4/100)+C'.$row.'+0.34),"")')
+						  ->setCellValue('J'.$row, '=IF(D'.$row.'=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
 	 	$row++;
 	}
 }
