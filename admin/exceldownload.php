@@ -78,7 +78,7 @@ if(isset($_POST) && count($_POST)){
 		FROM tblinvoices t1 
 		JOIN tblclients t2 ON t1.userid=t2.id
 		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
-		ORDER BY t1.id DESC";
+		ORDER BY t1.datepaid DESC";
 
 	$result = mysql_query($query);
 
@@ -96,6 +96,8 @@ if(isset($_POST) && count($_POST)){
 						  ->setCellValue('J'.$row, '=IF(D'.$row.'=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
 	 	$row++;
 	}
+
+	$worksheet->setCellValue('L1',$query);
 }
 
 // Redirect output to a client’s web browser (Excel5)
