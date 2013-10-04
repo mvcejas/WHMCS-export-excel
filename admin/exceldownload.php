@@ -154,7 +154,7 @@ if(isset($_POST) && count($_POST)){
 				  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
 				  ->setCellValue('G'.$row, '=IF(D'.$row.'="B",C'.$row.',"")')
 				  ->setCellValue('I'.$row, '=IF(D'.$row.'="P",SUM((C'.$row.'*4/100)+C'.$row.'+0.34),"")')
-				  ->setCellValue('J'.$row, '=IF(D'.$row.'=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
+				  ->setCellValue('J'.$row, '=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
 	 	$row++;
 	}
 }
