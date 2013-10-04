@@ -26,6 +26,11 @@ $objPHPExcel->getDefaultStyle()
 			    ),
             ));
 
+// set worksheet title and frozen headers
+$objPHPExcel->getActiveSheet()
+			->freezePane('Z3')
+			->setTitle('Sheet 1');
+
 // create headers
 $objPHPExcel->setActiveSheetIndex(0)
 			->mergeCells('A1:A2')
@@ -226,12 +231,6 @@ $objPHPExcel->getActiveSheet()
 			    	),
 			  	),
 			), False);
-
-// set worksheet title and frozen headers
-$WorksheetTitle = date('M',$datefrom)===date('M',$dateto) ? date('F',$dateto) : date('F',$datefrom).'_'.date('F',$dateto);
-$objPHPExcel->getActiveSheet()
-			->freezePane('Z3')
-			->setTitle($WorksheetTitle);
 
 // Redirect output to a client’s web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
