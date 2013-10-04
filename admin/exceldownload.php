@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors',true);
+ini_set('error_reporting',true);
+
 require realpath(dirname(__FILE__)) . '/../includes/classes/PHPExcel.php';
 require realpath(dirname(__FILE__)) . '/../dbconnect.php';
 
@@ -12,9 +16,15 @@ $objPHPExcel->getActiveSheet()
 
 // set default font
 $objPHPExcel->getDefaultStyle()
-			->getFont()
-		    ->setName('Arial')
-		    ->setSize(10);
+		    ->applyFromArray(array(
+                'font' => array(
+                	'size' => 10,
+                	'name' => 'Arial'
+            	),
+	        	'alignment' => array(
+			        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+			    ),
+            ));
 
 // create headers
 $objPHPExcel->setActiveSheetIndex(0)
@@ -99,19 +109,22 @@ $objPHPExcel->setActiveSheetIndex(0)
             	)
             ));
 
-// the next row count after the headers is
-$row = 3;
 
-// Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Sheet Title');
-
+// normalize font E2:K2
+$objPHPExcel->setActiveSheetIndex(0)
+			->getStyle('E2:K2')
+			->applyFromArray(array(
+				'font' => array(
+					'bold' => false
+				)
+			));
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
 
 if(isset($_POST) && count($_POST)){
-	$datefrom = strtotime($_POST['datefrom']);
-	$dateto   = strtotime($_POST['dateto']);
+	$datefrom = strtotime(str_replace('/','-',$_POST['datefrom']));
+	$dateto   = strtotime(str_replace('/','-',$_POST['dateto']));
 
 	$query = "SELECT t2.lastname AS description
 		, t1.invoicenum
@@ -121,15 +134,16 @@ if(isset($_POST) && count($_POST)){
 		JOIN tblclients t2 ON t1.userid=t2.id
 		JOIN tblaccounts t3 ON t1.id=t3.invoiceid
 		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
-		ORDER BY t1.id DESC";
+		ORDER BY t1.datepaid DESC";
 
 	$result = mysql_query($query);
 
+	$row = 3;
 	$worksheet = $objPHPExcel->getActiveSheet();
 
 	while($obj = mysql_fetch_object($result)){
 		$worksheet->setCellValue('A'.$row, $obj->description)
-				  ->setCellValue('B'.$row, preg_replace("/ITH2013-/","",$obj->invoicenum))
+				  ->setCellValue('B'.$row, $obj->invoicenum)
 				  ->setCellValue('C'.$row, number_format($obj->total,2))
 				  ->setCellValue('D'.$row, $obj->method)
 				  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
@@ -140,23 +154,88 @@ if(isset($_POST) && count($_POST)){
 	}
 }
 
-$styleArray = array(
-       'borders' => array(
-             'outline' => array(
-                    'style' => PHPExcel_Style_Border::BORDER_THIN,
-                    'color' => array('rgb' => '0000FF'),
-             ),
-       ),
-);
-foreach(range(1,$row) as $r){
-	$objPHPExcel->getActiveSheet()
-				->getStyle('A'.$row.':K'.$row)
-				->applyFromArray($styleArray);
-}
+// headers decor
+$objPHPExcel->getActiveSheet()
+			->getStyle('B1:D2')
+			->applyFromArray(array(
+				'borders' => array(
+				    'right' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+			  	),
+			), False);
+
+$objPHPExcel->getActiveSheet()
+			->getStyle('F1:F2')
+			->applyFromArray(array(
+				'borders' => array(
+				    'right' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+			  	),
+			), False);
+
+$objPHPExcel->getActiveSheet()
+			->getStyle('H1:H2')
+			->applyFromArray(array(
+				'borders' => array(
+				    'right' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+			  	),
+			), False);
+
+$objPHPExcel->getActiveSheet()
+			->getStyle('K1')
+			->applyFromArray(array(
+				'borders' => array(
+				    'right' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+			  	),
+			), False);
+
+$objPHPExcel->getActiveSheet()
+			->getStyle('E2:K2')
+			->applyFromArray(array(
+				'borders' => array(
+				    'top' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+				    'right' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+			  	),
+			), False);
+
+$objPHPExcel->getActiveSheet()
+			->getStyle('A3:K'.$objPHPExcel->getActiveSheet()->getHighestRow())
+			->applyFromArray(array(
+				'borders' => array(
+				    'right' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+				      	'color' => array(
+							'rgb' => '0000FF'
+				    	)
+			    	),
+			    	'bottom' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+				      	'color' => array(
+							'rgb' => '0000FF'
+				    	)
+			    	),
+			  	),
+			), False);
+
+// set worksheet title and frozen headers
+$WorksheetTitle = date('M',$datefrom)===date('M',$dateto) ? date('F',$dateto) : date('F',$datefrom).'_'.date('F',$dateto);
+$objPHPExcel->getActiveSheet()
+			->freezePane('Z3')
+			->setTitle($WorksheetTitle);
 
 // Redirect output to a client’s web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="BookTitle.xls"');
+header('Content-Disposition: attachment;filename="'.date('d-m-Y').'.xls"');
 header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
 header('Cache-Control: max-age=1');
