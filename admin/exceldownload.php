@@ -1,5 +1,6 @@
 <?php
 require realpath(dirname(__FILE__)) . '/../includes/classes/PHPExcel.php';
+require realpath(dirname(__FILE__)) . '/../dbconnect.php';
 
 // Create new PHPExcel object
 $objPHPExcel = new PHPExcel();
@@ -86,6 +87,8 @@ if(isset($_POST) && count($_POST)){
 
 	$row = 3;
 	while($obj = mysql_fetch_object($result)){
+		var_dump($obj);
+
 		$worksheet->setCellValue('A'.$row, $obj->description)
 						  ->setCellValue('B'.$row, $obj->invoicenum)
 						  ->setCellValue('C'.$row, $obj->total)
@@ -98,6 +101,7 @@ if(isset($_POST) && count($_POST)){
 	}
 
 	$worksheet->setCellValue('L1',$query);
+	exit;
 }
 
 // Redirect output to a client’s web browser (Excel5)
