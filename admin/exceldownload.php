@@ -77,17 +77,17 @@ $objPHPExcel->getActiveSheet()->setTitle('Sheet Title');
 $objPHPExcel->setActiveSheetIndex(0);
 
 if(isset($_POST) && count($_POST)){
-	$datefrom = strtotime($_POST['datefrom']);
-	$dateto   = strtotime($_POST['dateto']);
+	$datefrom = strtotime(str_replace('/','-',$_POST['datefrom']));
+	$dateto   = strtotime(str_replace('/','-',$_POST['dateto']));
 
 	$query = "SELECT 
 		CONCAT(t2.firstname,0x20,t2.lastname) AS description
 		, t1.invoicenum
 		, t1.total
 		, IF(t1.paymentmethod='Paypal','P','B') AS method
-		FROM whmcs.tblinvoices t1 
+		FROM tblinvoices t1 
 		JOIN tblclients t2 ON t1.userid=t2.id
-		WHERE t1.status='Paid' AND t1.datepaid BETWEEN $datefrom AND $dateto
+		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
 		ORDER BY t1.id DESC";
 
 	$result = mysql_query($query);
@@ -103,6 +103,7 @@ if(isset($_POST) && count($_POST)){
 				  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
 				  ->setCellValue('G'.$row, '=IF(D'.$row.'="B",C'.$row.',"")')
 				  ->setCellValue('I'.$row, '=IF(D'.$row.'="P",SUM((C'.$row.'*4/100)+C'.$row.'+0.34),"")');
+				  ->setCellValue('J'.$row, '=IF(D'.$row.'=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
 	 	$row++;
 	}
 }
