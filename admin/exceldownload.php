@@ -149,12 +149,12 @@ if(isset($_POST) && count($_POST)){
 	while($obj = mysql_fetch_object($result)){
 		$worksheet->setCellValue('A'.$row, $obj->description)
 				  ->setCellValue('B'.$row, $obj->invoicenum)
-				  ->setCellValue('C'.$row, number_format($obj->total,2))
+				  ->setCellValue('C'.$row, $obj->total)
 				  ->setCellValue('D'.$row, $obj->method)
 				  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
 				  ->setCellValue('G'.$row, '=IF(D'.$row.'="B",C'.$row.',"")')
 				  ->setCellValue('I'.$row, '=IF(D'.$row.'="P",SUM((C'.$row.'*4/100)+C'.$row.'+0.34),"")')
-				  ->setCellValue('J'.$row, '=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.35),"")');
+				  ->setCellValue('J'.$row, '=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.34),"")');
 	 	$row++;
 	}
 }
@@ -231,6 +231,19 @@ $objPHPExcel->getActiveSheet()
 			    	),
 			  	),
 			), False);
+
+$objPHPExcel->getActiveSheet()
+						->getStyle('C3:C'.$objPHPExcel->getActiveSheet()->getHighestRow())
+						->getNumberFormat()
+						->setFormatCode("#,##0");
+$objPHPExcel->getActiveSheet()
+						->getStyle('I3:I'.$objPHPExcel->getActiveSheet()->getHighestRow())
+						->getNumberFormat()
+						->setFormatCode("#,##0");
+$objPHPExcel->getActiveSheet()
+						->getStyle('J3:J'.$objPHPExcel->getActiveSheet()->getHighestRow())
+						->getNumberFormat()
+						->setFormatCode("#,##0");
 
 // Redirect output to a client’s web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
