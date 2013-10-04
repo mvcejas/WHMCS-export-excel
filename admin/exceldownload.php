@@ -120,7 +120,7 @@ if(isset($_POST) && count($_POST)){
 		FROM tblinvoices t1 
 		JOIN tblclients t2 ON t1.userid=t2.id
 		JOIN tblaccounts t3 ON t1.id=t3.invoiceid
-		WHERE t1.status='Paid' AND t1.datepaid BETWEEN $datefrom AND $dateto
+		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
 		ORDER BY t1.id DESC";
 
 	$result = mysql_query($query);
