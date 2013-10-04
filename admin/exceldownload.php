@@ -71,8 +71,7 @@ if(isset($_POST) && count($_POST)){
 	$datefrom = strtotime(str_replace('/','-',$_POST['datefrom']));
 	$dateto   = strtotime(str_replace('/','-',$_POST['dateto']));
 
-	$query = "SELECT 
-		CONCAT(t2.firstname,0x20,t2.lastname) AS description
+	$query = "SELECT CONCAT(t2.firstname,0x20,t2.lastname) AS description
 		, t1.invoicenum
 		, t1.total
 		, IF(t1.paymentmethod='Paypal','P','B') AS method
