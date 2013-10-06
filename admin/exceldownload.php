@@ -150,14 +150,14 @@ if(isset($_POST) && count($_POST)){
 	$worksheet = $objPHPExcel->getActiveSheet();
 
 	while($obj = mysql_fetch_object($result)){
-		$worksheet->setCellValue('A'.$row, $obj->description)
-				  ->setCellValue('B'.$row, str_replace('ITH2013','',$obj->invoicenum))
-				  ->setCellValue('C'.$row, $obj->total)
-				  ->setCellValue('D'.$row, $obj->method)
-				  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
-				  ->setCellValue('G'.$row, '=IF(D'.$row.'="B",C'.$row.',"")')
-				  ->setCellValue('I'.$row, '=IF(D'.$row.'="P",SUM((C'.$row.'*4/100)+C'.$row.'+0.34),"")')
-				  ->setCellValue('J'.$row, '=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.34),"")');
+		$worksheet->setCellValue('A'.$row, iconv('windows-1250', 'utf-8',$obj->description))
+						  ->setCellValue('B'.$row, str_replace('ITH2013','',$obj->invoicenum))
+						  ->setCellValue('C'.$row, $obj->total)
+						  ->setCellValue('D'.$row, $obj->method)
+						  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
+						  ->setCellValue('G'.$row, '=IF(D'.$row.'="B",C'.$row.',"")')
+						  ->setCellValue('I'.$row, '=IF(D'.$row.'="P",SUM((C'.$row.'*4/100)+C'.$row.'+0.34),"")')
+						  ->setCellValue('J'.$row, '=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.34),"")');
 	 	$row++;
 	}
 }
@@ -238,15 +238,15 @@ $objPHPExcel->getActiveSheet()
 $objPHPExcel->getActiveSheet()
 						->getStyle('C3:C'.$objPHPExcel->getActiveSheet()->getHighestRow())
 						->getNumberFormat()
-						->setFormatCode("#,##0.00_");
+						->setFormatCode("#,##0.00");
 $objPHPExcel->getActiveSheet()
 						->getStyle('I3:I'.$objPHPExcel->getActiveSheet()->getHighestRow())
 						->getNumberFormat()
-						->setFormatCode("#,##0.00_");
+						->setFormatCode("#,##0.00");
 $objPHPExcel->getActiveSheet()
 						->getStyle('J3:J'.$objPHPExcel->getActiveSheet()->getHighestRow())
 						->getNumberFormat()
-						->setFormatCode("#,##0.00_");
+						->setFormatCode("#,##0.00");
 
 // Redirect output to a client’s web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
