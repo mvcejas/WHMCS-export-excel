@@ -142,8 +142,9 @@ if(isset($_POST) && count($_POST)){
 		JOIN tblclients t2 ON t1.userid=t2.id
 		JOIN tblaccounts t3 ON t1.id=t3.invoiceid
 		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
-		ORDER BY t1.datepaid DESC";
+		ORDER BY t1.datepaid DESC,t1.invoicenum ASC";
 
+	//mysql_set_charset('utf8');
 	$result = mysql_query($query);
 
 	$row = 3;
@@ -151,7 +152,7 @@ if(isset($_POST) && count($_POST)){
 
 	while($obj = mysql_fetch_object($result)){
 		$worksheet->setCellValue('A'.$row, iconv('windows-1250', 'utf-8',$obj->description))
-						  ->setCellValue('B'.$row, str_replace('ITH2013','',$obj->invoicenum))
+						  ->setCellValue('B'.$row, str_replace('ITH2013-','',$obj->invoicenum))
 						  ->setCellValue('C'.$row, $obj->total)
 						  ->setCellValue('D'.$row, $obj->method)
 						  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
@@ -163,6 +164,26 @@ if(isset($_POST) && count($_POST)){
 }
 
 // headers decor
+$objPHPExcel->getActiveSheet()
+			->getStyle('A1:A2')
+			->applyFromArray(array(
+				'borders' => array(
+				    'left' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+			  	),
+			), False);
+$objPHPExcel->getActiveSheet()
+			->getStyle('A3:A'.$objPHPExcel->getActiveSheet()->getHighestRow())
+			->applyFromArray(array(
+				'borders' => array(
+				    'left' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+				      	'color' => array('rgb' => '0000FF')
+			    	),
+			  	),
+			), False);
+
 $objPHPExcel->getActiveSheet()
 			->getStyle('B1:D2')
 			->applyFromArray(array(
@@ -237,6 +258,14 @@ $objPHPExcel->getActiveSheet()
 
 $objPHPExcel->getActiveSheet()
 						->getStyle('C3:C'.$objPHPExcel->getActiveSheet()->getHighestRow())
+						->getNumberFormat()
+						->setFormatCode("#,##0.00");
+$objPHPExcel->getActiveSheet()
+						->getStyle('E3:E'.$objPHPExcel->getActiveSheet()->getHighestRow())
+						->getNumberFormat()
+						->setFormatCode("#,##0.00");
+$objPHPExcel->getActiveSheet()
+						->getStyle('G3:G'.$objPHPExcel->getActiveSheet()->getHighestRow())
 						->getNumberFormat()
 						->setFormatCode("#,##0.00");
 $objPHPExcel->getActiveSheet()
