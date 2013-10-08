@@ -143,7 +143,7 @@ if(isset($_POST) && count($_POST)){
 		JOIN tblclients t2 ON t1.userid=t2.id
 		JOIN tblaccounts t3 ON t1.id=t3.invoiceid
 		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
-		ORDER BY t1.id ASC,t1.datepaid DESC";
+		ORDER BY invoice ASC,t1.datepaid DESC";
 
 	if(function_exists('mysql_set_charset')){
 		mysql_set_charset('utf8');
