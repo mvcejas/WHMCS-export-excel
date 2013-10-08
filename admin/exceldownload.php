@@ -167,7 +167,10 @@ if(isset($_POST) && count($_POST)){
 	 	$row++;
 	}
 
-	$result2 = mysql_query("SELECT * FROM manualentry ORDER BY datepaid DESC");
+	$result2 = mysql_query("SELECT * 
+		FROM manualentry 
+		WHERE datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto) 
+		ORDER BY fatt ASC,datepaid DESC");
 	while($arr = mysql_fetch_array($result2)){
 		$worksheet->setCellValue('A'.$row, $arr['descrizione'])
 						  ->setCellValue('B'.$row, $arr['fatt'])
