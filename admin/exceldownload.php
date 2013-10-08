@@ -166,6 +166,22 @@ if(isset($_POST) && count($_POST)){
 						  ->setCellValue('J'.$row, '=IF(D'.$row.'="p",SUM(I'.$row.'-(I'.$row.'*2.7/100)-0.34),"")');
 	 	$row++;
 	}
+
+	$result2 = mysql_query("SELECT * FROM manualentry ORDER BY datepaid DESC");
+	while($arr = mysql_fetch_array($result2)){
+		$worksheet->setCellValue('A'.$row, $arr['descrizione'])
+						  ->setCellValue('B'.$row, $arr['fatt'])
+						  ->setCellValue('C'.$row, $arr['importo'])
+						  ->setCellValue('D'.$row, $arr['cod'])
+						  ->setCellValue('E'.$row, $arr['c_entrate'])
+						  ->setCellValue('F'.$row, $arr['c_uscite'])
+						  ->setCellValue('G'.$row, $arr['b_entrate'])
+						  ->setCellValue('H'.$row, $arr['b_uscite'])
+						  ->setCellValue('I'.$row, $arr['p_lordo'])
+						  ->setCellValue('J'.$row, $arr['p_netto'])
+						  ->setCellValue('J'.$row, $arr['p_uscite']);
+	 	$row++;
+	}
 }
 
 // headers decor
