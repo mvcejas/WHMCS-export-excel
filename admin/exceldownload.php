@@ -136,14 +136,14 @@ if(isset($_POST) && count($_POST)){
 	$dateto   = strtotime(str_replace('/','-',$_POST['dateto']));
 
 	$query = "SELECT t2.lastname AS description
-		, t1.invoicenum
+		, REPLACE(t1.invoicenum,'ITH2013-','') AS invoice
 		, t1.total
 		, IF(t3.transid!='','P','B') AS method
 		FROM tblinvoices t1 
 		JOIN tblclients t2 ON t1.userid=t2.id
 		JOIN tblaccounts t3 ON t1.id=t3.invoiceid
 		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
-		ORDER BY t1.datepaid DESC,t1.invoicenum ASC";
+		ORDER BY t1.datepaid DESC,invoice ASC";
 
 	if(function_exists('mysql_set_charset')){
 		mysql_set_charset('utf8');
@@ -157,7 +157,7 @@ if(isset($_POST) && count($_POST)){
 
 	while($obj = mysql_fetch_object($result)){
 		$worksheet->setCellValue('A'.$row, $obj->description)
-						  ->setCellValue('B'.$row, str_replace('ITH2013-','',$obj->invoicenum))
+						  ->setCellValue('B'.$row, $obj->invoice)
 						  ->setCellValue('C'.$row, $obj->total)
 						  ->setCellValue('D'.$row, $obj->method)
 						  ->setCellValue('E'.$row, '=IF(D'.$row.'="C",C'.$row.',"")')
