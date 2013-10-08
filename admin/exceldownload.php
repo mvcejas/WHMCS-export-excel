@@ -43,6 +43,7 @@ $objPHPExcel->setActiveSheetIndex(0)
 $objPHPExcel->setActiveSheetIndex(0)
 			->getColumnDimension('A')
 			->setWidth(30);
+
 // set width column D			
 $objPHPExcel->setActiveSheetIndex(0)
 			->getColumnDimension('D')
@@ -144,14 +145,18 @@ if(isset($_POST) && count($_POST)){
 		WHERE t1.status='Paid' AND t1.datepaid BETWEEN FROM_UNIXTIME($datefrom) AND FROM_UNIXTIME($dateto)
 		ORDER BY t1.datepaid DESC,t1.invoicenum ASC";
 
-	//mysql_set_charset('utf8');
+	if(function_exists('mysql_set_charset')){
+		mysql_set_charset('utf8');
+	}else{
+		mysql_query("SET NAMES utf8");
+	}
 	$result = mysql_query($query);
 
 	$row = 3;
 	$worksheet = $objPHPExcel->getActiveSheet();
 
 	while($obj = mysql_fetch_object($result)){
-		$worksheet->setCellValue('A'.$row, iconv('windows-1250', 'utf-8',$obj->description))
+		$worksheet->setCellValue('A'.$row, $obj->description)
 						  ->setCellValue('B'.$row, str_replace('ITH2013-','',$obj->invoicenum))
 						  ->setCellValue('C'.$row, $obj->total)
 						  ->setCellValue('D'.$row, $obj->method)
@@ -164,6 +169,16 @@ if(isset($_POST) && count($_POST)){
 }
 
 // headers decor
+$objPHPExcel->getActiveSheet()
+			->getStyle('A1:K1')
+			->applyFromArray(array(
+				'borders' => array(
+				    'top' => array(
+				      	'style' => PHPExcel_Style_Border::BORDER_THIN,
+			    	),
+			  	),
+			), False);
+
 $objPHPExcel->getActiveSheet()
 			->getStyle('A1:A2')
 			->applyFromArray(array(
