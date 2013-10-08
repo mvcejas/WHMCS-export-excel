@@ -3,7 +3,7 @@ if (!defined("WHMCS"))
 	die("This file cannot be accessed directly");
 
 $reportdata["title"] = "Export Report To Microsoft Excel";
-$reportdata["description"] = "This report can be used to generate an excel file report of invoices.";
+$reportdata["description"] = "This report can be used to generate an excel file report of invoices. (<a href=\"".$_SERVER['PHP_SELF']."?report=manual_entry\">Add Manual Entries</a>)";
 $reportdata["headertext"] = '
 <form method="post" action="exceldownload.php">
 <table class="form" width="100%" border="0" cellspacing="2" cellpadding="3">
