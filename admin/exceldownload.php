@@ -170,6 +170,10 @@ if(isset($_POST) && count($_POST)){
 
 // headers decor
 $objPHPExcel->getActiveSheet()
+				    ->getRowDimension('1')
+				    ->setRowHeight(18);
+
+$objPHPExcel->getActiveSheet()
 			->getStyle('A1:K1')
 			->applyFromArray(array(
 				'borders' => array(
