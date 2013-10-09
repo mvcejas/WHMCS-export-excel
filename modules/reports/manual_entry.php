@@ -85,7 +85,7 @@ if(!isset($_GET['records'])){
 					<tr><td class="fieldlabel">Descrizione</td><td class="fieldarea"><input type="text" name="descrizione" value="'.$row['descrizione'].'"></td></tr>
 					<tr><td class="fieldlabel">Fatt. N.</td><td class="fieldarea"><input type="text" name="fatt" value="'.$row['fatt'].'"></td></tr>
 					<tr><td class="fieldlabel">Importo</td><td class="fieldarea"><input type="text" name="importo" value="'.$row['importo'].'"></td></tr>
-					<tr><td class="fieldlabel">Cod.</td><td class="fieldarea"><select name="cod"><option value="B" '.($row['cod']=='B'?'selected':null).'>Banca</option><option value="C" '.($row['cod']=='C'?'selected':null).'>Cassa</option><option value="P" '.($row['cod']=='P'?'selected':null).'>Paypal</option></select></td></tr>
+					<tr><td class="fieldlabel">Cod.</td><td class="fieldarea"><input type="text" name="cod" value="'.$row['cod'].'"></td></tr>
 					<tr><td class="fieldlabel">Cassa</td><td class="fieldarea"><label>entrate</label><input type="text" name="c_entrate" value="'.$row['c_entrate'].'"> <label>uscite</label><input type="text" name="c_uscite" value="'.$row['c_uscite'].'"></td></tr>
 					<tr><td class="fieldlabel">Banca</td><td class="fieldarea"><label>entrate</label><input type="text" name="b_entrate" value="'.$row['b_entrate'].'"> <label>uscite</label><input type="text" name="b_uscite" value="'.$row['b_uscite'].'"></td></tr>
 					<tr><td class="fieldlabel">Paypal</td><td class="fieldarea"><label>ent lordo</label><input type="text" name="p_lordo" value="'.$row['p_lordo'].'"> <label>ent netto</label><input type="text" name="p_netto" value="'.$row['p_netto'].'"> <label>ent uscite</label><input type="text" name="p_uscite" value="'.$row['p_uscite'].'"></td></tr>
