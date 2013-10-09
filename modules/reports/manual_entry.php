@@ -102,7 +102,7 @@ if(!isset($_GET['records'])){
 					<tr><td class="fieldlabel">Descrizione</td><td class="fieldarea"><input type="text" name="descrizione" value=""></td></tr>
 					<tr><td class="fieldlabel">Fatt. N.</td><td class="fieldarea"><input type="text" name="fatt" value=""></td></tr>
 					<tr><td class="fieldlabel">Importo</td><td class="fieldarea"><input type="text" name="importo" value=""></td></tr>
-					<tr><td class="fieldlabel">Cod.</td><td class="fieldarea"><select name="cod"><option value="B">Banca</option><option value="C">Cassa</option><option value="P">Paypal</option></select></td></tr>
+					<tr><td class="fieldlabel">Cod.</td><td class="fieldarea"><input type="text" name="cod"></td></tr>
 					<tr><td class="fieldlabel">Cassa</td><td class="fieldarea"><label>entrate</label><input type="text" name="c_entrate" value=""> <label>uscite</label><input type="text" name="c_uscite" value=""></td></tr>
 					<tr><td class="fieldlabel">Banca</td><td class="fieldarea"><label>entrate</label><input type="text" name="b_entrate" value=""> <label>uscite</label><input type="text" name="b_uscite" value=""></td></tr>
 					<tr><td class="fieldlabel">Paypal</td><td class="fieldarea"><label>ent lordo</label><input type="text" name="p_lordo" value=""> <label>ent netto</label><input type="text" name="p_netto" value=""> <label>ent uscite</label><input type="text" name="p_uscite" value=""></td></tr>
