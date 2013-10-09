@@ -136,6 +136,7 @@ else{
 					<td>'.$row['p_lordo'].'</td>
 					<td>'.$row['p_netto'].'</td>
 					<td>'.$row['p_uscite'].'</td>
+					<td>'.$row['datepaid'].'</td>
 					<td><a title="Edit" href="'.$_SERVER['PHP_SELF'].'?report=manual_entry&amp;edit='.$row['id'].'"><img src="images/edit.gif" width="16" height="16" border="0" alt="Edit"></a></td>
 					<td><a title="Delete" href="'.$_SERVER['PHP_SELF'].'?report=manual_entry&amp;records=1&amp;del='.$row['id'].'"><img src="images/delete.gif" width="16" height="16" border="0" alt="Delete"></a></td>
 				</tr>';
@@ -144,7 +145,7 @@ else{
 	else{
 		$records .= '
 			<tr bgcolor="#ffffff" style="text-align:center;">
-				<td colspan="13">No Data Found For This Report</td>
+				<td colspan="14">No Data Found For This Report</td>
 			</tr>';
 	}
 
@@ -156,7 +157,7 @@ else{
 						<td colspan="2">Cassa "C"</td>
 						<td colspan="2">Banca "B"</td>
 						<td colspan="3">Paypal "P"</td>
-						<td colspan="2">&nbsp;</td>
+						<td colspan="3">&nbsp;</td>
 					</tr>
 					<tr bgcolor="#efefef" style="text-align:center;font-weight:bold;">
 						<td>Descrizione</td>
@@ -170,6 +171,7 @@ else{
 						<td>ent lordo</td>
 						<td>ent netto</td>
 						<td>uscite</td>
+						<td>datepaid</td>
 						<td colspan="2">&nbsp;</td>
 					</tr>
 			</thead>
