@@ -119,7 +119,7 @@ else{
 		mysql_query("DELETE FROM manualentry WHERE id=$id");
 	}
 
-	$result = mysql_query("SELECT * FROM manualentry ORDER BY id DESC");
+	$result = mysql_query("SELECT * FROM manualentry ORDER BY datepaid DESC");
 	$records = '';
 	if(mysql_num_rows($result)){
 		while($row = mysql_fetch_array($result)){
