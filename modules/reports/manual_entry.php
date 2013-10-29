@@ -157,7 +157,7 @@ else{
 	$opt_month = '';
 	$opt_year = '';
 
-	for($i=1;$i<=31;$i++){	
+	for($i=1;$i<=12;$i++){	
 		if(isset($_GET['mm']) && $_GET['mm']==$i){
 			$opt_month .= '<option selected>'.$i.'</option>';
 		}
