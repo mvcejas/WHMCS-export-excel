@@ -124,6 +124,9 @@ else{
 	if(isset($_GET['mm']) && isset($_GET['yy'])){
 		$rrange.= "WHERE MONTH(datepaid)='{$_GET['mm']}' AND YEAR(datepaid)='{$_GET['yy']}'";
 	}
+	else{
+		$rrange.= "WHERE MONTH(datepaid)='".date('m')."' AND YEAR(datepaid)='".date('Y')."'";
+	}
 	$result = mysql_query("SELECT * FROM manualentry $rrange ORDER BY datepaid DESC");
 	$records = '';
 	if(mysql_num_rows($result)){
