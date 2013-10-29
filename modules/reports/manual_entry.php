@@ -119,6 +119,11 @@ else{
 		mysql_query("DELETE FROM manualentry WHERE id=$id");
 	}
 
+	$rrange = '';
+
+	if(isset($_GET['mm']) && isset($_GET['yy'])){
+		$rrange.= "WHERE MONTH(datepaid)='{$_GET['mm']}' AND YEAR(datepaid)='{$_GET['yy']}'";
+	}
 	$result = mysql_query("SELECT * FROM manualentry $rrange ORDER BY datepaid DESC");
 	$records = '';
 	if(mysql_num_rows($result)){
